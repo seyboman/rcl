@@ -29,7 +29,7 @@ extern "C"
 #include "rcl/logging_rosout.h"
 #include "rcl/rcl.h"
 #include "rcl/remap.h"
-#include "rcl/security_directory.h"
+//#include "rcl/security_directory.h"
 #include "rcutils/filesystem.h"
 #include "rcutils/find.h"
 #include "rcutils/format_string.h"
@@ -302,6 +302,8 @@ rcl_node_init(
   node_security_options.enforce_security = (0 == strcmp(ros_enforce_security, "Enforce")) ?
     RMW_SECURITY_ENFORCEMENT_ENFORCE : RMW_SECURITY_ENFORCEMENT_PERMISSIVE;
 
+  node_security_options.enforce_security = RMW_SECURITY_ENFORCEMENT_PERMISSIVE;
+#if 0
   if (!use_security) {
     node_security_options.enforce_security = RMW_SECURITY_ENFORCEMENT_PERMISSIVE;
   } else {  // if use_security
@@ -317,6 +319,8 @@ rcl_node_init(
       }
     }
   }
+#endif
+
   node->impl->rmw_node_handle = rmw_create_node(
     &(node->context->impl->rmw_context),
     name, local_namespace_, domain_id, &node_security_options);
